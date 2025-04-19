@@ -61,8 +61,7 @@ func main() {
 		fileID := fileIDs[c.Sender().ID]
 
 		if fileID == "" {
-			log.Println("FileID is empty")
-			return c.Send("Ошибка! Повторите попытку позже")
+			return nil
 		}
 
 		level, err := strconv.Atoi(strings.TrimPrefix(strings.TrimSpace(c.Callback().Data), "level_"))
