@@ -91,12 +91,13 @@ func RunBot(a *App) error {
 	})
 
 	b.Handle(tele.OnCallback, func(c tele.Context) error {
-		if err := a.statsRepo.RecordEvent(c.Chat().ID); err != nil {
-			a.log.Error("Failed to record event", err)
-		}
+		go func() {
+			if err := a.statsRepo.RecordEvent(c.Chat().ID); err != nil {
+				a.log.Error("Failed to record event", err)
+			}
+		}()
 
 		fileID := fileIDs[c.Sender().ID]
-
 		if fileID == "" {
 			return nil
 		}
